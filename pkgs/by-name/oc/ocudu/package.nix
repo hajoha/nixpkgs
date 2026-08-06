@@ -74,7 +74,14 @@ stdenv.mkDerivation (finalAttrs: {
   ++ lib.optional stdenv.hostPlatform.isAarch64 (lib.cmakeFeature "MCPU" mcpu);
 
   doCheck = false; # integration/benchmark suites are heavy; enable selectively
-
+  postPatch = ''
+    # cmake-sbom's per-binary SPDX scripts assert on ''${CMAKE_INSTALL_PREFIX}/bin/...
+    # and fail at install time with an absolute store prefix. Skip them; the
+    # package-level SBOM in share/ is still generated.
+    substituteInPlace CMakeLists.txt \
+      --replace-fail 'function(notify_binary_target)' 'function(notify_binary_target)
+    return()'
+  '';
   meta = {
     description = "O-RAN compliant 5G NR CU/DU implementation";
     longDescription = "x86-64-v3 because AVX is not supported on older CPUs";
