@@ -268,6 +268,11 @@ lib.mapAttrs mkLicense (
       fullName = "Lawrence Berkeley National Labs BSD variant license";
     };
 
+    bsd3OpenMpi = {
+      spdxId = "BSD-3-Clause-Open-MPI";
+      fullName = "BSD 3-Clause Open MPI variant";
+    };
+
     bsd3Modification = {
       spdxId = "BSD-3-Clause-Modification";
       fullName = "BSD 3-Clause Modification";
